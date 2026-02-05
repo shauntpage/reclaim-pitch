@@ -1,7 +1,7 @@
 import streamlit as st
 
 # --- CONFIG ---
-st.set_page_config(page_title="Reclaim", page_icon="⚡", layout="mobile")
+st.set_page_config(page_title="Reclaim", page_icon="⚡", layout="centered")
 
 # --- DIRECTOR MODE (The Safety Net) ---
 # On mobile, click the '>' arrow in top-left to switch screens
