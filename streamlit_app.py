@@ -1,9 +1,9 @@
 import streamlit as st
 
-# Configure the page to use the full width and set the title
+# Configure the page to use the full width
 st.set_page_config(layout="wide", page_title="Reclaim Home")
 
-# The HTML and CSS code must be inside a text string
+# --- HTML & CSS BLOCK START ---
 html_code = """
 <!DOCTYPE html>
 <html lang="en">
@@ -190,7 +190,8 @@ html_code = """
             color: white;
         }
     </style>
-
+</head>
+<body>
     <div class="header">
         <div class="user-initials">SP</div>
         <div class="page-title">Home</div>
@@ -248,4 +249,32 @@ html_code = """
     <div class="scanner-container">
         <div class="scanner">
             <i class="material-icons">qr_code_scanner</i>
-            <span style="font-size: 12px; margin-top:
+            <span style="font-size: 12px; margin-top: 10px; color: #ff742e;">Active Monitor</span>
+        </div>
+    </div>
+
+    <div class="nav">
+        <div class="nav-item active">
+            <i class="material-icons">home</i>
+            <span class="nav-label">Home</span>
+        </div>
+        <div class="nav-item">
+            <i class="material-icons">assignment</i>
+            <span class="nav-label">Assets</span>
+        </div>
+        <div class="nav-item">
+            <i class="material-icons">account_balance_wallet</i>
+            <span class="nav-label">Ledger</span>
+        </div>
+        <div class="nav-item">
+            <i class="material-icons">group</i>
+            <span class="nav-label">Team</span>
+        </div>
+    </div>
+</body>
+</html>
+""" 
+# --- HTML & CSS BLOCK END ---
+
+# Render the HTML in Streamlit
+st.markdown(html_code, unsafe_allow_html=True)
