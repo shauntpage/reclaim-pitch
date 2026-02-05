@@ -118,9 +118,32 @@ elif demo_phase == "3. The Ledger (Money)":
         </div>
     """, unsafe_allow_html=True)
     
+    # This was the part that broke - now fixed:
     items = [
         ("Kitchen Fridge", "healthy", "Healthy"),
         ("Water Heater", "crit", "Critical (14y)"),
         ("HVAC System", "healthy", "Healthy"),
         ("Tesla Charger", "healthy", "Healthy")
     ]
+    
+    for name, status, label in items:
+        color = "#FF3B30" if status == "crit" else "#4CD964"
+        st.markdown(f"""
+            <div style="background:#222; padding:15px; border-radius:12px; margin-bottom:10px; display:flex; align-items:center; color:white;">
+                <div style="width:10px; height:10px; background:{color}; border-radius:50%; margin-right:15px;"></div>
+                <div style="flex-grow:1;">
+                    <div style="font-weight:600;">{name}</div>
+                    <div style="font-size:12px; color:#aaa;">{label}</div>
+                </div>
+                <div style="color:#555;">></div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("""
+        <div class="nav">
+            <div class="nav-item">🏠</div>
+            <div class="nav-item">📋</div>
+            <div class="nav-item active">💰</div>
+            <div class="nav-item">👥</div>
+        </div>
+    """, unsafe_allow_html=True)
