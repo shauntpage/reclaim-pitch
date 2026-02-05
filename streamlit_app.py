@@ -10,7 +10,9 @@ demo_phase = st.sidebar.radio(
     ["1. Home (Zoom UI)", "2. The Scan", "3. The Ledger (Money)"]
 )
 
-# --- CSS (Zoom Dark Mode + Material Icons) ---
+# --- CSS (The Design Layer) ---
+# This block makes it look like a native app. 
+# DO NOT DELETE 'unsafe_allow_html=True' at the end!
 st.markdown("""
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
@@ -37,7 +39,7 @@ st.markdown("""
     
     /* BOTTOM NAV */
     .nav {position: fixed; bottom: 0; left: 0; width: 100%; background: #1a1a1a; border-top: 1px solid #333; display: flex; justify-content: space-around; padding: 15px 0; z-index: 999;}
-    .nav-item {color: #888; text-align: center;}
+    .nav-item {color: #888; text-align: center; cursor: pointer;}
     .nav-item .material-icons {font-size: 28px; color: #888;}
     .nav-item.active .material-icons {color: white;}
     .nav-label {font-size: 10px; color: #888; display: block;}
@@ -63,7 +65,7 @@ if demo_phase == "1. Home (Zoom UI)":
                 <div class="profile">SP</div>
                 <span style="font-weight:600; font-size:18px;">Home</span>
             </div>
-            <div><span class="material-icons" style="font-size:20px;">search</span></div>
+            <div><span class="material-icons" style="font-size:24px;">search</span></div>
         </div>
     """, unsafe_allow_html=True)
 
@@ -100,90 +102,4 @@ if demo_phase == "1. Home (Zoom UI)":
 
     # Bottom Nav (Professional)
     st.markdown("""
-        <div class="nav">
-            <div class="nav-item active">
-                <span class="material-icons">home</span>
-                <span class="nav-label">Home</span>
-            </div>
-            <div class="nav-item">
-                <span class="material-icons">assignment</span>
-                <span class="nav-label">Assets</span>
-            </div>
-            <div class="nav-item">
-                <span class="material-icons">account_balance_wallet</span>
-                <span class="nav-label">Ledger</span>
-            </div>
-            <div class="nav-item">
-                <span class="material-icons">group</span>
-                <span class="nav-label">Team</span>
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
-
-# --- SCENE 2: SCANNER ---
-elif demo_phase == "2. The Scan":
-    st.markdown("""
-        <div class="zoom-header">
-            <span style="color:#0e72ec;">Cancel</span>
-            <span style="font-weight:600;">Scanner</span>
-            <span class="material-icons">flash_on</span>
-        </div>
-        <div class="scanner">
-            <h2 style="color:#ff742e; font-family:monospace;">SCANNING...</h2>
-        </div>
-        <div style="margin-top:20px; text-align:center; color:white;">
-            <p>Identifying Asset...</p>
-            <h3 style="color:#4CD964;">Rheem Platinum</h3>
-        </div>
-    """, unsafe_allow_html=True)
-
-# --- SCENE 3: LEDGER ---
-elif demo_phase == "3. The Ledger (Money)":
-    st.markdown("""
-        <div class="zoom-header">
-            <div class="profile">SP</div>
-            <span style="font-weight:600;">Assets & Money</span>
-            <span class="material-icons">search</span>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    items = [
-        ("Kitchen Fridge", "healthy", "Healthy"),
-        ("Water Heater", "crit", "Critical (14y)"),
-        ("HVAC System", "healthy", "Healthy"),
-        ("Tesla Charger", "healthy", "Healthy")
-    ]
-    
-    for name, status, label in items:
-        color = "#FF3B30" if status == "crit" else "#4CD964"
-        st.markdown(f"""
-            <div style="background:#222; padding:15px; border-radius:12px; margin-bottom:10px; display:flex; align-items:center; color:white;">
-                <div style="width:10px; height:10px; background:{color}; border-radius:50%; margin-right:15px;"></div>
-                <div style="flex-grow:1;">
-                    <div style="font-weight:600;">{name}</div>
-                    <div style="font-size:12px; color:#aaa;">{label}</div>
-                </div>
-                <div style="color:#555;"><span class="material-icons" style="font-size:18px;">chevron_right</span></div>
-            </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown("""
-        <div class="nav">
-            <div class="nav-item">
-                <span class="material-icons">home</span>
-                <span class="nav-label">Home</span>
-            </div>
-            <div class="nav-item">
-                <span class="material-icons">assignment</span>
-                <span class="nav-label">Assets</span>
-            </div>
-            <div class="nav-item active">
-                <span class="material-icons">account_balance_wallet</span>
-                <span class="nav-label">Ledger</span>
-            </div>
-            <div class="nav-item">
-                <span class="material-icons">group</span>
-                <span class="nav-label">Team</span>
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
+        <div class="nav
