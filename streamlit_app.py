@@ -11,8 +11,6 @@ demo_phase = st.sidebar.radio(
 )
 
 # --- CSS (The Design Layer) ---
-# This block makes it look like a native app. 
-# DO NOT DELETE 'unsafe_allow_html=True' at the end!
 st.markdown("""
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
@@ -102,4 +100,90 @@ if demo_phase == "1. Home (Zoom UI)":
 
     # Bottom Nav (Professional)
     st.markdown("""
-        <div class="nav
+        <div class="nav">
+            <div class="nav-item active">
+                <span class="material-icons">home</span>
+                <span class="nav-label">Home</span>
+            </div>
+            <div class="nav-item">
+                <span class="material-icons">assignment</span>
+                <span class="nav-label">Assets</span>
+            </div>
+            <div class="nav-item">
+                <span class="material-icons">account_balance_wallet</span>
+                <span class="nav-label">Ledger</span>
+            </div>
+            <div class="nav-item">
+                <span class="material-icons">group</span>
+                <span class="nav-label">Team</span>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+
+# --- SCENE 2: SCANNER ---
+elif demo_phase == "2. The Scan":
+    st.markdown("""
+        <div class="zoom-header">
+            <span style="color:#0e72ec;">Cancel</span>
+            <span style="font-weight:600;">Scanner</span>
+            <span class="material-icons">flash_on</span>
+        </div>
+        <div class="scanner">
+            <h2 style="color:#ff742e; font-family:monospace;">SCANNING...</h2>
+        </div>
+        <div style="margin-top:20px; text-align:center; color:white;">
+            <p>Identifying Asset...</p>
+            <h3 style="color:#4CD964;">Rheem Platinum</h3>
+        </div>
+    """, unsafe_allow_html=True)
+
+# --- SCENE 3: LEDGER ---
+elif demo_phase == "3. The Ledger (Money)":
+    st.markdown("""
+        <div class="zoom-header">
+            <div class="profile">SP</div>
+            <span style="font-weight:600;">Assets & Money</span>
+            <span class="material-icons">search</span>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    items = [
+        ("Kitchen Fridge", "healthy", "Healthy"),
+        ("Water Heater", "crit", "Critical (14y)"),
+        ("HVAC System", "healthy", "Healthy"),
+        ("Tesla Charger", "healthy", "Healthy")
+    ]
+    
+    for name, status, label in items:
+        color = "#FF3B30" if status == "crit" else "#4CD964"
+        st.markdown(f"""
+            <div style="background:#222; padding:15px; border-radius:12px; margin-bottom:10px; display:flex; align-items:center; color:white;">
+                <div style="width:10px; height:10px; background:{color}; border-radius:50%; margin-right:15px;"></div>
+                <div style="flex-grow:1;">
+                    <div style="font-weight:600;">{name}</div>
+                    <div style="font-size:12px; color:#aaa;">{label}</div>
+                </div>
+                <div style="color:#555;"><span class="material-icons" style="font-size:18px;">chevron_right</span></div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("""
+        <div class="nav">
+            <div class="nav-item">
+                <span class="material-icons">home</span>
+                <span class="nav-label">Home</span>
+            </div>
+            <div class="nav-item">
+                <span class="material-icons">assignment</span>
+                <span class="nav-label">Assets</span>
+            </div>
+            <div class="nav-item active">
+                <span class="material-icons">account_balance_wallet</span>
+                <span class="nav-label">Ledger</span>
+            </div>
+            <div class="nav-item">
+                <span class="material-icons">group</span>
+                <span class="nav-label">Team</span>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
