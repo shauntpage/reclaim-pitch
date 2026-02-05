@@ -4,21 +4,19 @@ import time
 # 1. Page Config
 st.set_page_config(page_title="Reclaim Home", layout="wide")
 
-# 2. CSS Styling (The Design)
+# 2. CSS Styling (iPhone Notch fix + UI Clean up)
 st.markdown("""
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
-    /* Hide Streamlit default UI */
     #MainMenu, .stDeployButton, footer, header {visibility: hidden;}
     .block-container { padding: 0 !important; max-width: 100%; }
     .stApp { background-color: #f4f6f8; }
     
-    /* Grid Layout for Top Icons */
     .grid-container {
         display: grid; 
         grid-template-columns: repeat(5, 1fr);
         gap: 10px; 
-        margin: 65px 10px 20px 10px; /* Pushes content below the iPhone notch */
+        margin: 65px 10px 20px 10px; 
         text-align: center;
     }
     .icon-col { display: flex; flex-direction: column; align-items: center; text-decoration: none; }
@@ -32,15 +30,13 @@ st.markdown("""
     .orange { background-color: #ff742e; }
     .label { font-size: 10px; color: #333; font-weight: 600; text-decoration: none; }
 
-    /* Alert Banner */
     .banner {
         background-color: #ffebee; border-left: 5px solid #d32f2f;
         padding: 15px; border-radius: 8px; margin: 0 10px 20px 10px;
-        display: flex; align-items: center;
+        display: flex; align-items: center; cursor: pointer;
     }
-    .banner-text { font-size: 14px; color: #d32f2f; font-weight: bold; }
+    .banner-text { font-size: 13px; color: #d32f2f; font-weight: bold; }
 
-    /* Bottom Nav */
     .nav {
         position: fixed; bottom: 0; left: 0; width: 100%;
         background: white; display: flex; justify-content: space-around;
@@ -49,10 +45,10 @@ st.markdown("""
 </style>
 
 <div class="grid-container">
-    <div class="icon-col">
+    <a href="/?page=search" target="_self" class="icon-col">
         <div class="icon-box blue"><i class="material-icons">search</i></div>
         <div class="label">Search</div>
-    </div>
+    </a>
     
     <a href="/?page=scan" target="_self" class="icon-col">
         <div class="icon-box orange"><i class="material-icons">qr_code_scanner</i></div>
@@ -76,50 +72,74 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# 3. Navigation & App Logic
+# 3. Navigation Logic
 current_page = st.query_params.get("page", "home")
 
-if current_page == "scan":
-    if st.button("⬅️ Back to Dashboard"):
-        st.query_params.clear()
-        st.rerun()
-    
-    st.subheader("Appliance Scanner")
-    img_file = st.camera_input("Scan Barcode or Model Number")
-    
-    if img_file:
-        with st.status("Analyzing...", expanded=True) as status:
-            time.sleep(1)
-            st.write("Extracting details...")
-            time.sleep(1)
-            status.update(label="Match Found!", state="complete")
-        st.success("Identified: Bosch Series 800 Dishwasher")
+# Function to go back home
+def go_home():
+    st.query_params.clear()
+    st.rerun()
+
+# --- PAGE ROUTING ---
+
+if current_page == "search":
+    st.button("⬅️ Back", on_click=go_home)
+    st.subheader("Search Inventory")
+    st.text_input("Find an appliance, manual, or receipt...", placeholder="e.g. Dishwasher")
+
+elif current_page == "scan":
+    st.button("⬅️ Back", on_click=go_home)
+    st.subheader("AI Appliance Scanner")
+    img = st.camera_input("Scan Barcode")
+    if img:
+        st.success("Barcode Detected: Rheem XE50T12CS55U1")
 
 elif current_page == "add":
-    if st.button("⬅️ Back"):
-        st.query_params.clear()
-        st.rerun()
-    st.subheader("Add Asset Manually")
-    st.text_input("Brand / Model Name")
+    st.button("⬅️ Back", on_click=go_home)
+    st.subheader("Manual Asset Entry")
+    with st.form("add_form"):
+        st.text_input("Brand/Model")
+        st.date_input("Purchase Date")
+        st.file_uploader("Upload Receipt/Warranty")
+        st.form_submit_button("Save Asset")
 
 elif current_page == "reclaim":
-    if st.button("⬅️ Back"):
-        st.query_params.clear()
-        st.rerun()
-    st.subheader("Reclaim Values")
-    st.metric("Potential Rebates", "$150.00")
-    st.metric("Warranty Savings", "$450.00")
+    st.button("⬅️ Back", on_click=go_home)
+    st.subheader("Reclaim Portal")
+    st.write("We found **3 potential savings** for your home:")
+    st.metric("Energy Star Rebate", "$75.00")
+    st.metric("Class Action (Dishwasher)", "$120.00")
+    st.info("Click to file claim automatically.")
+
+elif current_page == "share":
+    st.button("⬅️ Back", on_click=go_home)
+    st.subheader("Share Home Access")
+    st.write("Generate a secure link for a service professional.")
+    st.selectbox("Select Duration", ["1 Hour", "24 Hours", "Permanent"])
+    st.button("Generate Secure Link")
+
+elif current_page == "diagnostic":
+    st.button("⬅️ Back", on_click=go_home)
+    st.error("### ⚠️ Water Heater Alert")
+    st.write("**Detected:** Inconsistent heating cycle.")
+    st.write("**Part Required:** Upper Heating Element (Rheem Part #SP10869L)")
+    st.button("🛒 Order Part via Amazon")
+    st.button("🛠️ Watch DIY Replacement Guide")
 
 else:
-    # Home Page Default View
+    # --- HOME PAGE VIEW ---
     st.markdown("""
-    <div class="banner">
-        <div class="banner-text">⚠️ Critical Alert: Water Heater sensor anomaly</div>
-    </div>
+    <a href="/?page=diagnostic" target="_self" style="text-decoration:none;">
+        <div class="banner">
+            <div class="banner-text">⚠️ Critical Alert: Water Heater anomaly</div>
+        </div>
+    </a>
     """, unsafe_allow_html=True)
-    st.info("No other maintenance tasks today.")
+    
+    st.write("")
+    st.info("System Status: All other assets performing within normal range.")
 
-# 4. Bottom Nav Bar
+# 4. Fixed Nav Bar (Bottom)
 st.markdown("""
 <div class="nav">
     <div style="text-align:center; color:#007bff"><i class="material-icons">home</i><div style="font-size:10px">Home</div></div>
