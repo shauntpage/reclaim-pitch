@@ -120,4 +120,7 @@ elif demo_phase == "3. The Ledger (Money)":
     
     items = [
         ("Kitchen Fridge", "healthy", "Healthy"),
-        ("Water Heater",
+        ("Water Heater", "crit", "Critical (14y)"),
+        ("HVAC System", "healthy", "Healthy"),
+        ("Tesla Charger", "healthy", "Healthy")
+    ]
