@@ -1,3 +1,12 @@
+import streamlit as st
+
+# This MUST be the first line using 'st'
+st.set_page_config(page_title="Reclaim Home", layout="wide")
+
+# Now your markdown will work
+st.markdown("""
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+...
 # Updated HTML Grid with active links for all icons
 st.markdown("""
 <div class="grid-container">
