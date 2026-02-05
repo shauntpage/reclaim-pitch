@@ -1,21 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
+import streamlit as st
+
+# Set page configuration to make it look like a mobile app
+st.set_page_config(layout="wide")
+
+# We use st.markdown with unsafe_allow_html=True to render custom HTML/CSS
+st.markdown("""
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
+    /* Main Streamlit container adjustments to fit mobile view better */
+    .block-container {
+        padding: 0 !important;
+        max-width: 100%;
+    }
+    
     body {
         font-family: 'Roboto', sans-serif;
         background-color: #f4f6f8;
         margin: 0;
-        padding: 20px 20px 80px 20px; /* Padding bottom for nav bar */
     }
 
     /* Grid Layout for Top Icons */
-    .grid {
+    .grid-container {
         display: grid;
-        grid-template-columns: repeat(5, 1fr); /* 5 columns */
+        grid-template-columns: repeat(5, 1fr);
         gap: 10px;
-        margin-bottom: 20px;
+        margin: 20px 10px;
         text-align: center;
     }
 
@@ -35,6 +44,7 @@
         color: white;
         margin-bottom: 5px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        cursor: pointer;
     }
 
     .icon-box.blue { background-color: #007bff; }
@@ -55,7 +65,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 20px;
+        margin: 0 10px 20px 10px;
         box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
 
@@ -65,6 +75,7 @@
         margin: 0;
         color: #d32f2f;
         font-size: 14px;
+        font-weight: bold;
     }
 
     .banner-text p {
@@ -79,6 +90,7 @@
         color: #d32f2f;
         text-transform: uppercase;
         white-space: nowrap;
+        cursor: pointer;
     }
 
     /* Info Text */
@@ -122,6 +134,7 @@
         padding: 15px 0;
         border-top: 1px solid #eee;
         box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        z-index: 999;
     }
 
     .nav-item {
@@ -137,10 +150,8 @@
     .nav-item i { font-size: 24px; margin-bottom: 2px; }
     .nav-label { font-size: 10px; }
 </style>
-</head>
-<body>
 
-<div class="grid">
+<div class="grid-container">
     <div class="icon-col">
         <div class="icon-box blue">
             <i class="material-icons">search</i>
@@ -213,5 +224,4 @@
         <span class="nav-label">Team</span>
     </div>
 </div>
-</body>
-</html>
+""", unsafe_allow_html=True)
