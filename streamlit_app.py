@@ -1,280 +1,217 @@
-import streamlit as st
-
-# Configure the page to use the full width
-st.set_page_config(layout="wide", page_title="Reclaim Home")
-
-# --- HTML & CSS BLOCK START ---
-html_code = """
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f6f9;
-            margin: 0;
-            padding: 20px 20px 100px 20px; /* Padding bottom for fixed nav */
-        }
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f4f6f8;
+        margin: 0;
+        padding: 20px 20px 80px 20px; /* Padding bottom for nav bar */
+    }
 
-        /* Header Area */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-        .user-initials {
-            background: #e0e0e0;
-            color: #333;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        .page-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-        }
+    /* Grid Layout for Top Icons */
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr); /* 5 columns */
+        gap: 10px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
 
-        /* Icon Grid */
-        .grid {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            flex-wrap: wrap; 
-        }
-        .icon-col {
-            text-align: center;
-            width: 19%; 
-            margin-bottom: 10px;
-        }
-        .icon-box {
-            height: 55px;
-            width: 55px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 5px auto;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        .material-icons {
-            font-size: 28px;
-            color: white;
-        }
-        .orange { background: #ff742e; }
-        .blue { background: #0e72ec; }
-        
-        .label {
-            font-size: 10px;
-            color: #666;
-            margin-top: 5px;
-            font-weight: 500;
-        }
+    .icon-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        /* Alert Banner */
-        .banner {
-            background: linear-gradient(90deg, #d32f2f, #f44336);
-            border-radius: 12px;
-            padding: 15px;
-            color: white;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
-        }
-        .banner-icon {
-            margin-right: 15px;
-        }
-        .banner-text h4 {
-            margin: 0 0 5px 0;
-            font-size: 16px;
-            font-weight: 600;
-        }
-        .banner-text p {
-            margin: 0;
-            font-size: 12px;
-            opacity: 0.9;
-        }
-        .banner-action {
-            margin-left: auto;
-            background: rgba(255,255,255,0.2);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 10px;
-            white-space: nowrap;
-            font-weight: bold;
-            cursor: pointer;
-        }
+    .icon-box {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        margin-bottom: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
 
-        /* Pulse Scanner Animation */
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(242, 109, 33, 0.7); }
-            70% { box-shadow: 0 0 0 20px rgba(242, 109, 33, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(242, 109, 33, 0); }
-        }
-        .scanner-container {
-            margin-top: 30px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-        }
-        .scanner {
-            border: 2px solid #ff742e;
-            height: 220px;
-            width: 100%;
-            border-radius: 20px;
-            animation: pulse 2s infinite;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            flex-direction: column;
-            color: #ff742e;
-        }
-        .scanner i {
-            font-size: 60px;
-            color: #ff742e;
-            opacity: 0.8;
-        }
+    .icon-box.blue { background-color: #007bff; }
+    .icon-box.orange { background-color: #ff742e; }
+    
+    .label {
+        font-size: 10px;
+        color: #333;
+        font-weight: 500;
+    }
 
-        /* Info Text */
-        .info-text {
-            text-align: center;
-            color: #aaa;
-            font-size: 13px;
-            margin: 20px 0;
-        }
+    /* Critical Alert Banner */
+    .banner {
+        background-color: #ffebee;
+        border-left: 5px solid #d32f2f;
+        padding: 15px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
 
-        /* Bottom Navigation */
-        .nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #1a1a1a; 
-            border-top: 1px solid #333;
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0 20px 0; /* Extra padding for iOS home bar */
-            z-index: 999;
-        }
-        .nav-item {
-            color: #888;
-            text-align: center;
-            cursor: pointer;
-            width: 25%;
-        }
-        .nav-item .material-icons {
-            font-size: 24px;
-            color: #888;
-            margin-bottom: 4px;
-        }
-        .nav-item.active .material-icons {
-            color: white;
-        }
-        .nav-label {
-            font-size: 10px;
-            color: #888;
-            display: block;
-        }
-        .nav-item.active .nav-label {
-            color: white;
-        }
-    </style>
+    .banner-icon { color: #d32f2f; margin-right: 10px; }
+    
+    .banner-text h4 {
+        margin: 0;
+        color: #d32f2f;
+        font-size: 14px;
+    }
+
+    .banner-text p {
+        margin: 2px 0 0 0;
+        font-size: 12px;
+        color: #555;
+    }
+
+    .banner-action {
+        font-size: 11px;
+        font-weight: bold;
+        color: #d32f2f;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    /* Info Text */
+    .info-text {
+        text-align: center;
+        color: #999;
+        font-size: 14px;
+        margin: 20px 0;
+    }
+
+    /* Scanner Circle */
+    .scanner-container {
+        display: flex;
+        justify-content: center;
+        margin: 30px 0;
+    }
+
+    .scanner {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 2px dashed #ccc;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #ccc;
+    }
+    
+    .scanner i { font-size: 40px; }
+
+    /* Bottom Navigation */
+    .nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        display: flex;
+        justify-content: space-around;
+        padding: 15px 0;
+        border-top: 1px solid #eee;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    }
+
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #999;
+        cursor: pointer;
+    }
+
+    .nav-item.active { color: #007bff; }
+    
+    .nav-item i { font-size: 24px; margin-bottom: 2px; }
+    .nav-label { font-size: 10px; }
+</style>
 </head>
 <body>
-    <div class="header">
-        <div class="user-initials">SP</div>
-        <div class="page-title">Home</div>
-        <i class="material-icons" style="color: #ccc;">settings</i>
+
+<div class="grid">
+    <div class="icon-col">
+        <div class="icon-box blue">
+            <i class="material-icons">search</i>
+        </div>
+        <div class="label">Search</div>
     </div>
-
-    <div class="grid">
-        <div class="icon-col">
-            <div class="icon-box blue">
-                <i class="material-icons">search</i>
-            </div>
-            <div class="label">Search</div>
-        </div>
-        <div class="icon-col">
-            <div class="icon-box orange">
-                <i class="material-icons">qr_code_scanner</i>
-            </div>
-            <div class="label">New Scan</div>
-        </div>
-        <div class="icon-col">
-            <div class="icon-box blue">
-                <i class="material-icons">add_box</i>
-            </div>
-            <div class="label">Add Asset</div>
-        </div>
-        <div class="icon-col">
-            <div class="icon-box blue">
-                <i class="material-icons">bolt</i>
-            </div>
-            <div class="label">Reclaim</div>
-        </div>
-         <div class="icon-col">
-            <div class="icon-box blue">
-                <i class="material-icons">ios_share</i>
-            </div>
-            <div class="label">Share</div>
-        </div>
-    </div>
-
-    <div class="banner">
-        <div class="banner-icon">
-            <i class="material-icons">warning</i>
-        </div>
-        <div class="banner-text">
-            <h4>Critical Alert</h4>
-            <p>Water Heater sensor detected anomaly.</p>
-        </div>
-        <div class="banner-action">
-            VIEW DIAGNOSTIC
-        </div>
-    </div>
-
-    <div class="info-text">No other events today</div>
-
-    <div class="scanner-container">
-        <div class="scanner">
+    <div class="icon-col">
+        <div class="icon-box orange">
             <i class="material-icons">qr_code_scanner</i>
-            <span style="font-size: 12px; margin-top: 10px; color: #ff742e;">Active Monitor</span>
         </div>
+        <div class="label">New Scan</div>
     </div>
+    <div class="icon-col">
+        <div class="icon-box blue">
+            <i class="material-icons">add_box</i>
+        </div>
+        <div class="label">Add Asset</div>
+    </div>
+    <div class="icon-col">
+        <div class="icon-box blue">
+            <i class="material-icons">bolt</i>
+        </div>
+        <div class="label">Reclaim</div>
+    </div>
+     <div class="icon-col">
+        <div class="icon-box blue">
+            <i class="material-icons">ios_share</i>
+        </div>
+        <div class="label">Share</div>
+    </div>
+</div>
 
-    <div class="nav">
-        <div class="nav-item active">
-            <i class="material-icons">home</i>
-            <span class="nav-label">Home</span>
-        </div>
-        <div class="nav-item">
-            <i class="material-icons">assignment</i>
-            <span class="nav-label">Assets</span>
-        </div>
-        <div class="nav-item">
-            <i class="material-icons">account_balance_wallet</i>
-            <span class="nav-label">Ledger</span>
-        </div>
-        <div class="nav-item">
-            <i class="material-icons">group</i>
-            <span class="nav-label">Team</span>
-        </div>
+<div class="banner">
+    <div class="banner-icon">
+        <i class="material-icons">warning</i>
     </div>
+    <div class="banner-text">
+        <h4>Critical Alert</h4>
+        <p>Water Heater sensor detected anomaly.</p>
+    </div>
+    <div class="banner-action">
+        VIEW DIAGNOSTIC
+    </div>
+</div>
+
+<div class="info-text">No other events today</div>
+
+<div class="scanner-container">
+    <div class="scanner">
+        <i class="material-icons">qr_code_scanner</i>
+        <span style="font-size: 12px; margin-top: 10px; color: #ff742e;">Active Monitor</span>
+    </div>
+</div>
+
+<div class="nav">
+    <div class="nav-item active">
+        <i class="material-icons">home</i>
+        <span class="nav-label">Home</span>
+    </div>
+    <div class="nav-item">
+        <i class="material-icons">assignment</i>
+        <span class="nav-label">Assets</span>
+    </div>
+    <div class="nav-item">
+        <i class="material-icons">account_balance_wallet</i>
+        <span class="nav-label">Ledger</span>
+    </div>
+    <div class="nav-item">
+        <i class="material-icons">group</i>
+        <span class="nav-label">Team</span>
+    </div>
+</div>
 </body>
 </html>
-""" 
-# --- HTML & CSS BLOCK END ---
-
-# Render the HTML in Streamlit
-st.markdown(html_code, unsafe_allow_html=True)
