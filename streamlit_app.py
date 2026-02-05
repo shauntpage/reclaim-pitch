@@ -10,7 +10,7 @@ demo_phase = st.sidebar.radio(
     ["1. Home (Zoom UI)", "2. The Scan", "3. The Ledger (Money)"]
 )
 
-# --- CSS (Design Layer) ---
+# --- CSS (The Design Layer) ---
 st.markdown("""
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
@@ -46,7 +46,7 @@ st.markdown("""
     }
     .scanner {border: 2px solid #ff742e; height: 300px; border-radius: 20px; animation: pulse 2s infinite; display:flex; align-items:center; justify-content:center; margin-top: 20px;}
     </style>
-""", unsafe_allow_html=True)
+""", unsafe_allow_html=True) 
 
 # --- SCENE 1: HOME ---
 if demo_phase == "1. Home (Zoom UI)":
