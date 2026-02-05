@@ -1,173 +1,113 @@
-import streamlit as st
-
-# --- CONFIG ---
-st.set_page_config(page_title="Reclaim", page_icon="⚡", layout="centered")
-
-# --- DIRECTOR MODE ---
-st.sidebar.title("🎬 Demo Controls")
-demo_phase = st.sidebar.radio(
-    "Jump to Screen:",
-    ["1. Home (Zoom UI)", "2. The Scan", "3. The Ledger (Money)"]
-)
-
-# --- CSS (The Design Layer) ---
-st.markdown("""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reclaim Home Dashboard</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-    .stApp {background-color: #1a1a1a; font-family: sans-serif;}
-    #MainMenu, footer, header {visibility: hidden;}
-    .block-container {padding-top: 1rem; padding-bottom: 5rem;}
-    
-    .zoom-header {display: flex; justify-content: space-between; align-items: center; color: white; margin-bottom: 20px;}
-    .profile {width: 35px; height: 35px; background: #555; border-radius: 10px; text-align:center; line-height:35px; font-size:12px; color:white;}
-    
-    .grid {display: flex; justify-content: space-between; margin-bottom: 20px;}
-    .icon-col {text-align: center; width: 22%;}
-    .icon-box {height: 60px; width: 60px; border-radius: 18px; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px auto;}
-    .material-icons {font-size: 30px; color: white;} 
-    
-    .orange {background: #ff742e;}
-    .blue {background: #0e72ec;}
-    .label {font-size: 11px; color: #aaa; margin-top: 5px;}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px 20px 100px 20px; /* Padding bottom for fixed nav */
+        }
 
-    .banner {background: linear-gradient(90deg, #0e72ec, #2D8CF0); border-radius: 12px; padding: 15px; color: white; margin-bottom: 20px;}
-    
-    .nav {position: fixed; bottom: 0; left: 0; width: 100%; background: #1a1a1a; border-top: 1px solid #333; display: flex; justify-content: space-around; padding: 15px 0; z-index: 999;}
-    .nav-item {color: #888; text-align: center; cursor: pointer;}
-    .nav-item .material-icons {font-size: 28px; color: #888;}
-    .nav-item.active .material-icons {color: white;}
-    .nav-label {font-size: 10px; color: #888; display: block;}
-    .active .nav-label {color: white;}
-    
-    @keyframes pulse {
-        0% { box-shadow: 0 0 0 0 rgba(242, 109, 33, 0.7); }
-        70% { box-shadow: 0 0 0 20px rgba(242, 109, 33, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(242, 109, 33, 0); }
-    }
-    .scanner {border: 2px solid #ff742e; height: 300px; border-radius: 20px; animation: pulse 2s infinite; display:flex; align-items:center; justify-content:center; margin-top: 20px;}
-    </style>
-""", unsafe_allow_html=True) 
+        /* Header Area */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .user-initials {
+            background: #e0e0e0;
+            color: #333;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
 
-# --- SCENE 1: HOME ---
-if demo_phase == "1. Home (Zoom UI)":
-    st.markdown("""
-        <div class="zoom-header">
-            <div style="display:flex; gap:10px; align-items:center;">
-                <div class="profile">SP</div>
-                <span style="font-weight:600; font-size:18px;">Home</span>
-            </div>
-            <div><span class="material-icons" style="font-size:24px;">search</span></div>
-        </div>
-        <div class="grid">
-            <div class="icon-col">
-                <div class="icon-box orange"><span class="material-icons">qr_code_scanner</span></div>
-                <div class="label">New Scan</div>
-            </div>
-            <div class="icon-col">
-                <div class="icon-box blue"><span class="material-icons">add_box</span></div>
-                <div class="label">Add Asset</div>
-            </div>
-            <div class="icon-col">
-                <div class="icon-box blue"><span class="material-icons">bolt</span></div>
-                <div class="label">Reclaim</div>
-            </div>
-            <div class="icon-col">
-                <div class="icon-box blue"><span class="material-icons">ios_share</span></div>
-                <div class="label">Share</div>
-            </div>
-        </div>
-        <div class="banner">
-            <div style="font-weight:bold; margin-bottom:5px; display:flex; align-items:center; gap:10px;">
-                <span class="material-icons" style="font-size:20px;">warning</span> Critical Alert
-            </div>
-            <div style="font-size:13px; margin-bottom:10px; opacity:0.9;">Water Heater sensor detected anomaly.</div>
-            <div style="background:rgba(0,0,0,0.2); display:inline-block; padding:5px 15px; border-radius:15px; font-size:12px; font-weight:bold;">VIEW DIAGNOSTIC</div>
-        </div>
-        <div style="text-align:center; color:#555; margin-top:40px; font-size:14px;">No other events today</div>
-        <div class="nav">
-            <div class="nav-item active">
-                <span class="material-icons">home</span>
-                <span class="nav-label">Home</span>
-            </div>
-            <div class="nav-item">
-                <span class="material-icons">assignment</span>
-                <span class="nav-label">Assets</span>
-            </div>
-            <div class="nav-item">
-                <span class="material-icons">account_balance_wallet</span>
-                <span class="nav-label">Ledger</span>
-            </div>
-            <div class="nav-item">
-                <span class="material-icons">group</span>
-                <span class="nav-label">Team</span>
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
+        /* Icon Grid */
+        .grid {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            flex-wrap: wrap; 
+        }
+        .icon-col {
+            text-align: center;
+            width: 19%; /* Adjusted slightly to fit 5 items if needed, or wrap */
+            margin-bottom: 10px;
+        }
+        .icon-box {
+            height: 55px;
+            width: 55px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 5px auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .material-icons {
+            font-size: 28px;
+            color: white;
+        }
+        .orange { background: #ff742e; }
+        .blue { background: #0e72ec; }
+        
+        .label {
+            font-size: 10px;
+            color: #666;
+            margin-top: 5px;
+            font-weight: 500;
+        }
 
-# --- SCENE 2: SCANNER ---
-elif demo_phase == "2. The Scan":
-    st.markdown("""
-        <div class="zoom-header">
-            <span style="color:#0e72ec;">Cancel</span>
-            <span style="font-weight:600;">Scanner</span>
-            <span class="material-icons">flash_on</span>
-        </div>
-        <div class="scanner">
-            <h2 style="color:#ff742e; font-family:monospace;">SCANNING...</h2>
-        </div>
-        <div style="margin-top:20px; text-align:center; color:white;">
-            <p>Identifying Asset...</p>
-            <h3 style="color:#4CD964;">Rheem Platinum</h3>
-        </div>
-    """, unsafe_allow_html=True)
+        /* Alert Banner */
+        .banner {
+            background: linear-gradient(90deg, #d32f2f, #f44336);
+            border-radius: 12px;
+            padding: 15px;
+            color: white;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+        }
+        .banner-icon {
+            margin-right: 15px;
+        }
+        .banner-text h4 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+        }
+        .banner-text p {
+            margin: 0;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        .banner-action {
+            margin-left: auto;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            white-space: nowrap;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-# --- SCENE 3: LEDGER ---
-elif demo_phase == "3. The Ledger (Money)":
-    st.markdown("""
-        <div class="zoom-header">
-            <div class="profile">SP</div>
-            <span style="font-weight:600;">Assets & Money</span>
-            <span class="material-icons">search</span>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    items = [
-        ("Kitchen Fridge", "healthy", "Healthy"),
-        ("Water Heater", "crit", "Critical (14y)"),
-        ("HVAC System", "healthy", "Healthy"),
-        ("Tesla Charger", "healthy", "Healthy")
-    ]
-    
-    for name, status, label in items:
-        color = "#FF3B30" if status == "crit" else "#4CD964"
-        st.markdown(f"""
-            <div style="background:#222; padding:15px; border-radius:12px; margin-bottom:10px; display:flex; align-items:center; color:white;">
-                <div style="width:10px; height:10px; background:{color}; border-radius:50%; margin-right:15px;"></div>
-                <div style="flex-grow:1;">
-                    <div style="font-weight:600;">{name}</div>
-                    <div style="font-size:12px; color:#aaa;">{label}</div>
-                </div>
-                <div style="color:#555;"><span class="material-icons" style="font-size:18px;">chevron_right</span></div>
-            </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown("""
-        <div class="nav">
-            <div class="nav-item">
-                <span class="material-icons">home</span>
-                <span class="nav-label">Home</span>
-            </div>
-            <div class="nav-item">
-                <span class="material-icons">assignment</span>
-                <span class="nav-label">Assets</span>
-            </div>
-            <div class="nav-item active">
-                <span class="material-icons">account_balance_wallet</span>
-                <span class="nav-label">Ledger</span>
-            </div>
-            <div class="nav-item">
-                <span class="material-icons">group</span>
-                <span class="nav-label">Team</span>
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
+        /* Pulse Scanner Animation */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(242, 109, 33, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(242, 109, 33
