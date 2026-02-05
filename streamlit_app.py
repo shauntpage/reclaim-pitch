@@ -1,9 +1,15 @@
+import streamlit as st
+
+# Configure the page to use the full width and set the title
+st.set_page_config(layout="wide", page_title="Reclaim Home")
+
+# The HTML and CSS code must be inside a text string
+html_code = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reclaim Home Dashboard</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         body {
@@ -35,6 +41,7 @@
         .page-title {
             font-size: 18px;
             font-weight: 600;
+            color: #333;
         }
 
         /* Icon Grid */
@@ -46,7 +53,7 @@
         }
         .icon-col {
             text-align: center;
-            width: 19%; /* Adjusted slightly to fit 5 items if needed, or wrap */
+            width: 19%; 
             margin-bottom: 10px;
         }
         .icon-box {
@@ -90,6 +97,7 @@
         .banner-text h4 {
             margin: 0 0 5px 0;
             font-size: 16px;
+            font-weight: 600;
         }
         .banner-text p {
             margin: 0;
@@ -110,4 +118,134 @@
         /* Pulse Scanner Animation */
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(242, 109, 33, 0.7); }
-            70% { box-shadow: 0 0 0 20px rgba(242, 109, 33
+            70% { box-shadow: 0 0 0 20px rgba(242, 109, 33, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(242, 109, 33, 0); }
+        }
+        .scanner-container {
+            margin-top: 30px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+        .scanner {
+            border: 2px solid #ff742e;
+            height: 220px;
+            width: 100%;
+            border-radius: 20px;
+            animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            flex-direction: column;
+            color: #ff742e;
+        }
+        .scanner i {
+            font-size: 60px;
+            color: #ff742e;
+            opacity: 0.8;
+        }
+
+        /* Info Text */
+        .info-text {
+            text-align: center;
+            color: #aaa;
+            font-size: 13px;
+            margin: 20px 0;
+        }
+
+        /* Bottom Navigation */
+        .nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #1a1a1a; 
+            border-top: 1px solid #333;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0 20px 0; /* Extra padding for iOS home bar */
+            z-index: 999;
+        }
+        .nav-item {
+            color: #888;
+            text-align: center;
+            cursor: pointer;
+            width: 25%;
+        }
+        .nav-item .material-icons {
+            font-size: 24px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+        .nav-item.active .material-icons {
+            color: white;
+        }
+        .nav-label {
+            font-size: 10px;
+            color: #888;
+            display: block;
+        }
+        .nav-item.active .nav-label {
+            color: white;
+        }
+    </style>
+
+    <div class="header">
+        <div class="user-initials">SP</div>
+        <div class="page-title">Home</div>
+        <i class="material-icons" style="color: #ccc;">settings</i>
+    </div>
+
+    <div class="grid">
+        <div class="icon-col">
+            <div class="icon-box blue">
+                <i class="material-icons">search</i>
+            </div>
+            <div class="label">Search</div>
+        </div>
+        <div class="icon-col">
+            <div class="icon-box orange">
+                <i class="material-icons">qr_code_scanner</i>
+            </div>
+            <div class="label">New Scan</div>
+        </div>
+        <div class="icon-col">
+            <div class="icon-box blue">
+                <i class="material-icons">add_box</i>
+            </div>
+            <div class="label">Add Asset</div>
+        </div>
+        <div class="icon-col">
+            <div class="icon-box blue">
+                <i class="material-icons">bolt</i>
+            </div>
+            <div class="label">Reclaim</div>
+        </div>
+         <div class="icon-col">
+            <div class="icon-box blue">
+                <i class="material-icons">ios_share</i>
+            </div>
+            <div class="label">Share</div>
+        </div>
+    </div>
+
+    <div class="banner">
+        <div class="banner-icon">
+            <i class="material-icons">warning</i>
+        </div>
+        <div class="banner-text">
+            <h4>Critical Alert</h4>
+            <p>Water Heater sensor detected anomaly.</p>
+        </div>
+        <div class="banner-action">
+            VIEW DIAGNOSTIC
+        </div>
+    </div>
+
+    <div class="info-text">No other events today</div>
+
+    <div class="scanner-container">
+        <div class="scanner">
+            <i class="material-icons">qr_code_scanner</i>
+            <span style="font-size: 12px; margin-top:
